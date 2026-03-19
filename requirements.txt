@@ -1,0 +1,15 @@
+jupyterlab
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+seaborn
+openpyxl
+folium
+geopy
+contextily
+geopandas
+shapely
+pyproj
+holidays

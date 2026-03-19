@@ -1,0 +1,50 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.idea/
+.vscode/
+
+# Python caches and tooling
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+.python-version
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Test, coverage, and log outputs
+.coverage
+.coverage.*
+htmlcov/
+*.log
+
+# R session files
+.Rhistory
+.RData
+.Rproj.user/
+
+# Excel temp files
+~$*.xlsx
+
+# Local data and generated artifacts
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+artifacts/
+outputs/
+reports/

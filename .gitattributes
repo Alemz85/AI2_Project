@@ -1,0 +1,7 @@
+* text=auto eol=lf
+
+*.csv text eol=lf
+*.ipynb text eol=lf
+*.tsv text eol=lf
+*.xls binary
+*.xlsx binary
