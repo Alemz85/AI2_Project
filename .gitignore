@@ -6,6 +6,9 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Claude Code
+.claude/
+
 # Python caches and tooling
 __pycache__/
 *.py[cod]
