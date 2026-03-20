@@ -13,3 +13,4 @@ geopandas
 shapely
 pyproj
 holidays
+pyarrow
