@@ -16,7 +16,15 @@ scripts/
 ├── 01 - Data Cleaning.ipynb        # Clean hourly dataset: filtering, imputation, outlier flags, time features
 ├── 02 - Weather Data.ipynb         # Fetch hourly weather from Open-Meteo and join to EV dataset
 ├── 03 - EDA.ipynb                  # Exploratory analysis: temporal patterns, station variation, map, DR analysis
-└── 04 - Feature Engineering.ipynb  # Build model-ready features: cyclical time, lags, rolling stats, encoding
+├── 04 - Feature Engineering.ipynb  # Build model-ready features: cyclical time, lags, rolling stats, encoding
+├── 05 - Modeling (Baseline).ipynb  # Baseline models: persistence, station mean, Ridge, LightGBM, XGBoost
+├── 06 - Modeling (Tuned).ipynb     # Optuna hyperparameter tuning for LightGBM and XGBoost
+└── 07 - Summary & Error Analysis.ipynb  # Overfitting check, feature importance, error analysis
+
+results/          # Model outputs (not tracked by git)
+├── model_comparison.csv            # All 7 models compared
+├── best_model.pkl                  # Best tuned model (XGBoost)
+└── baseline_comparison.csv         # 5 baseline models compared
 
 guide/
 └── progress.md   # High-level summary of what each notebook does
@@ -36,13 +44,30 @@ guide/
    - `02 - Weather Data` → builds `data/processed/ev_cleaned_hourly_weather.parquet`
    - `03 - EDA` → exploratory analysis on the cleaned dataset
    - `04 - Feature Engineering` → builds `data/processed/ev_features.parquet`
+   - `05 - Modeling (Baseline)` → trains 5 models with defaults, saves to `results/`
+   - `06 - Modeling (Tuned)` → Optuna tuning, final comparison of all 7 models
+   - `07 - Summary & Error Analysis` → overfitting check, feature importance, error analysis
 
 ## Dataset
 
 - **Source:** [PlusDR — EV Charging Infrastructure & Demand Response Dataset (Figshare)](https://figshare.com/articles/dataset/EV_charging_infrastructure_demand_response_dataset_integrated_operational_and_market_data_from_Jeju_island/29617100) — 873 EV charging stations, Jeju Island, South Korea
 - **Period:** January 2021 – December 2022
 - **Primary dataset:** hourly resolution with weather (`ev_cleaned_hourly_weather.parquet`) — 585 stations, 45 columns
-- **Model-ready:** feature-engineered (`ev_features.parquet`) — 33 features, ~7.3M rows
+- **Model-ready:** feature-engineered (`ev_features.parquet`) — 36 features, ~7.2M rows
+
+## Results
+
+| Model | MAE (kWh) | RMSE (kWh) | R² |
+|-------|-----------|------------|-----|
+| Persistence (lag 24h) | 3.79 | 8.74 | -0.038 |
+| Station Hourly Mean | 3.25 | 6.58 | 0.412 |
+| Ridge Regression | 2.56 | 5.25 | 0.626 |
+| LightGBM (default) | 1.83 | 4.49 | 0.726 |
+| XGBoost (default) | 1.80 | 4.49 | 0.726 |
+| LightGBM (tuned) | 1.72 | 4.40 | 0.737 |
+| **XGBoost (tuned)** | **1.63** | **4.36** | **0.742** |
+
+Train/test split: Jan 2021 – Jun 2022 / Jul – Dec 2022 (65/35). Mild overfitting on XGBoost (R² gap = 0.052), acceptable for this dataset size.
 
 ## Git workflow notes
 

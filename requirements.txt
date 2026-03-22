@@ -14,3 +14,9 @@ shapely
 pyproj
 holidays
 pyarrow
+lightgbm
+xgboost
+optuna
+openmeteo-requests
+requests-cache
+retry-requests

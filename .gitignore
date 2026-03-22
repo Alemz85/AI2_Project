@@ -41,13 +41,16 @@ htmlcov/
 # Excel temp files
 ~$*.xlsx
 
-# Local data and generated artifacts
+# Local data and generated outputs
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
 data/interim/*
 !data/interim/.gitkeep
-artifacts/
+results/
 outputs/
 reports/
+
+# API caches
+.openmeteo_cache/
