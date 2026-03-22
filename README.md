@@ -19,7 +19,7 @@ scripts/
 ├── 04 - Feature Engineering.ipynb  # Build model-ready features: cyclical time, lags, rolling stats, encoding
 ├── 05 - Modeling (Baseline).ipynb  # Baseline models: persistence, station mean, Ridge, LightGBM, XGBoost
 ├── 06 - Modeling (Tuned).ipynb     # Optuna hyperparameter tuning for LightGBM and XGBoost
-└── 07 - Overfitting Check.ipynb    # Train vs test comparison to verify generalization
+└── 07 - Summary & Error Analysis.ipynb  # Overfitting check, feature importance, error analysis
 
 results/          # Model outputs (not tracked by git)
 ├── model_comparison.csv            # All 7 models compared
@@ -46,14 +46,14 @@ guide/
    - `04 - Feature Engineering` → builds `data/processed/ev_features.parquet`
    - `05 - Modeling (Baseline)` → trains 5 models with defaults, saves to `results/`
    - `06 - Modeling (Tuned)` → Optuna tuning, final comparison of all 7 models
-   - `07 - Overfitting Check` → verifies model generalization
+   - `07 - Summary & Error Analysis` → overfitting check, feature importance, error analysis
 
 ## Dataset
 
 - **Source:** [PlusDR — EV Charging Infrastructure & Demand Response Dataset (Figshare)](https://figshare.com/articles/dataset/EV_charging_infrastructure_demand_response_dataset_integrated_operational_and_market_data_from_Jeju_island/29617100) — 873 EV charging stations, Jeju Island, South Korea
 - **Period:** January 2021 – December 2022
-- **Primary dataset:** hourly resolution with weather (`ev_cleaned_hourly_weather.parquet`) — 586 stations, 45 columns
-- **Model-ready:** feature-engineered (`ev_features.parquet`) — 33 features, 7.3M rows
+- **Primary dataset:** hourly resolution with weather (`ev_cleaned_hourly_weather.parquet`) — 585 stations, 45 columns
+- **Model-ready:** feature-engineered (`ev_features.parquet`) — 33 features, ~7.3M rows
 
 ## Results
 
@@ -67,7 +67,7 @@ guide/
 | LightGBM (tuned) | 1.80 | 4.47 | 0.821 |
 | **XGBoost (tuned)** | **1.68** | **4.40** | **0.827** |
 
-Train/test split: Jan 2021 – Jun 2022 / Jul – Dec 2022 (65/35). No overfitting detected (R² gap = 0.016).
+Train/test split: Jan 2021 – Jun 2022 / Jul – Dec 2022 (65/35). Results will be updated after re-running with residential station excluded.
 
 ## Git workflow notes
 

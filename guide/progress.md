@@ -9,7 +9,8 @@
 - **Raw format:** 873 individual CSV files (one per station) + 3 Excel metadata files
 - **Resolution:** hourly aggregated
 - **Primary dataset for modeling:** `ev_cleaned_hourly_weather.parquet` (weather-joined)
-- **Model-ready:** `ev_features.parquet` (33 features, 7.3M rows)
+- **Model-ready:** `ev_features.parquet` (33 features, ~7.3M rows)
+- **Note:** One residential station (ID 811236417) was excluded — see notebook 07 for analysis
 
 ## Notebooks
 
@@ -20,7 +21,7 @@ Takes the raw data (873 separate CSVs + metadata Excel files) and combines every
 One-time notebook that geocodes the 873 station addresses using Nominatim (free, no API key). Saves results to `data/interim/station_coordinates.csv`. Resume-aware — if interrupted, re-running skips already-geocoded stations. Stations on outlying islands (Udo, Chuja) are handled and flagged separately.
 
 ### 01 - Data Cleaning
-Takes the unified hourly dataset and produces a clean, model-ready version. Drops stations with too much missing data (287 dropped, 586 kept), handles gaps and partial hours, flags outliers, and adds time-based features (hour, day of week, season, holidays, etc.).
+Takes the unified hourly dataset and produces a clean, model-ready version. Drops stations with too much missing data (287 dropped) and one residential station (ID 811236417) that is not comparable to the 585 commercial stations. Handles gaps and partial hours, flags outliers, and adds time-based features (hour, day of week, season, holidays, etc.).
 
 ### 02 - Weather Data
 Pulls historical hourly weather from Open-Meteo for two locations on Jeju Island (Jeju-Si and Seogwipo-Si) to capture the microclimate difference caused by Mt. Hallasan. Variables: temperature, humidity, precipitation, wind speed, cloud cover. Each station is joined to its city's weather by hour. Saves raw weather to interim and the joined EV+weather dataset to processed.
@@ -37,8 +38,8 @@ Trains 5 baseline models on the feature-engineered dataset: Persistence (lag 24h
 ### 06 - Modeling (Tuned)
 Uses Optuna (Bayesian hyperparameter optimization, 30 trials) to tune LightGBM and XGBoost on a 40% subsample for memory efficiency. Retrains best configs on full training data with early stopping. Compares all 7 models (5 baselines + 2 tuned). Includes an overfitting check (train vs test R² gap). Saves final comparison, best model, and Optuna study objects to results/.
 
-### 07 - Overfitting Check
-Standalone verification notebook. Loads the best tuned model and compares train vs test performance (MAE, RMSE, R²). Confirms the model generalizes well with an R² gap of 0.016.
+### 07 - Summary & Error Analysis
+Final evaluation notebook. Includes data refinement story (dropping residential station based on feature importance analysis), overfitting check (train vs test R² gap), model comparison across all 7 models, feature importance, actual vs predicted scatter, residual distribution, error breakdowns by hour/day/load magnitude/station, and worst predictions analysis.
 
 ## Status
 Project complete. All notebooks run end-to-end and results are finalized.
