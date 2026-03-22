@@ -53,21 +53,21 @@ guide/
 - **Source:** [PlusDR — EV Charging Infrastructure & Demand Response Dataset (Figshare)](https://figshare.com/articles/dataset/EV_charging_infrastructure_demand_response_dataset_integrated_operational_and_market_data_from_Jeju_island/29617100) — 873 EV charging stations, Jeju Island, South Korea
 - **Period:** January 2021 – December 2022
 - **Primary dataset:** hourly resolution with weather (`ev_cleaned_hourly_weather.parquet`) — 585 stations, 45 columns
-- **Model-ready:** feature-engineered (`ev_features.parquet`) — 33 features, ~7.3M rows
+- **Model-ready:** feature-engineered (`ev_features.parquet`) — 36 features, ~7.2M rows
 
 ## Results
 
 | Model | MAE (kWh) | RMSE (kWh) | R² |
 |-------|-----------|------------|-----|
-| Persistence (lag 24h) | 3.81 | 8.76 | 0.313 |
-| Station Hourly Mean | 3.29 | 6.81 | 0.585 |
-| Ridge Regression | 2.59 | 5.33 | 0.745 |
-| LightGBM (default) | 1.86 | 4.56 | 0.814 |
-| XGBoost (default) | 1.84 | 4.52 | 0.817 |
-| LightGBM (tuned) | 1.80 | 4.47 | 0.821 |
-| **XGBoost (tuned)** | **1.68** | **4.40** | **0.827** |
+| Persistence (lag 24h) | 3.79 | 8.74 | -0.038 |
+| Station Hourly Mean | 3.25 | 6.58 | 0.412 |
+| Ridge Regression | 2.56 | 5.25 | 0.626 |
+| LightGBM (default) | 1.83 | 4.49 | 0.726 |
+| XGBoost (default) | 1.80 | 4.49 | 0.726 |
+| LightGBM (tuned) | 1.72 | 4.40 | 0.737 |
+| **XGBoost (tuned)** | **1.63** | **4.36** | **0.742** |
 
-Train/test split: Jan 2021 – Jun 2022 / Jul – Dec 2022 (65/35). Results will be updated after re-running with residential station excluded.
+Train/test split: Jan 2021 – Jun 2022 / Jul – Dec 2022 (65/35). Mild overfitting on XGBoost (R² gap = 0.052), acceptable for this dataset size.
 
 ## Git workflow notes
 
