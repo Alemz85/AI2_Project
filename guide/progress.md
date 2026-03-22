@@ -7,14 +7,14 @@
 ## Dataset
 - **Source:** PlusDR dataset — 873 EV charging stations in South Korea (Jan 2021 – Dec 2022)
 - **Raw format:** 873 individual CSV files (one per station) + 3 Excel metadata files
-- **Two resolutions available:** 15-minute intervals and hourly aggregated
-- **Primary dataset for modeling:** hourly (`ev_cleaned_hourly.parquet`)
-- **Backup / detailed analysis:** 15-minute (`ev_unified_15min.parquet`)
+- **Resolution:** hourly aggregated
+- **Primary dataset for modeling:** `ev_cleaned_hourly_weather.parquet` (weather-joined)
+- **Model-ready:** `ev_features.parquet` (33 features, 7.3M rows)
 
 ## Notebooks
 
 ### 00 - Merge Raw
-Takes the raw data (873 separate CSVs + metadata Excel files) and combines everything into two unified parquet datasets (15-min and hourly). Each station CSV is reshaped from wide format (one row per day, 96 columns for each 15-min slot) into a proper time series. Station metadata (location, charger info, business type) and demand response event records are merged in.
+Takes the raw data (873 separate CSVs + metadata Excel files) and combines everything into a unified hourly parquet dataset. Each station CSV is reshaped from wide format (one row per day, 96 columns for each 15-min slot) into a proper time series, then aggregated to hourly. Station metadata (location, charger info, business type) and demand response event records are merged in.
 
 ### 00 - Geocode Stations
 One-time notebook that geocodes the 873 station addresses using Nominatim (free, no API key). Saves results to `data/interim/station_coordinates.csv`. Resume-aware — if interrupted, re-running skips already-geocoded stations. Stations on outlying islands (Udo, Chuja) are handled and flagged separately.
@@ -31,5 +31,14 @@ Exploratory analysis on the cleaned hourly dataset. Covers temporal patterns (ho
 ### 04 - Feature Engineering
 Takes the weather-joined dataset and produces a lean, model-ready parquet. Drops NaN rows and DR hours, caps extreme outliers, encodes time features as cyclical sin/cos pairs, builds per-station lag features (1h, 2h, 3h, 24h) and rolling statistics (6h, 12h, 24h, 7-day mean/std), label-encodes categoricals, normalizes station attributes, and drops all unused columns. Output is ready for modeling.
 
-## Next Steps
-- Model training and evaluation (05 - Modeling)
+### 05 - Modeling (Baseline)
+Trains 5 baseline models on the feature-engineered dataset: Persistence (lag 24h), Station Hourly Mean, Ridge Regression, LightGBM (defaults), and XGBoost (defaults). Uses a temporal train/test split (Jan 2021–Jun 2022 / Jul–Dec 2022). Evaluates with MAE, RMSE, and R². Saves comparison table and best baseline model to results/.
+
+### 06 - Modeling (Tuned)
+Uses Optuna (Bayesian hyperparameter optimization, 30 trials) to tune LightGBM and XGBoost on a 40% subsample for memory efficiency. Retrains best configs on full training data with early stopping. Compares all 7 models (5 baselines + 2 tuned). Includes an overfitting check (train vs test R² gap). Saves final comparison, best model, and Optuna study objects to results/.
+
+### 07 - Overfitting Check
+Standalone verification notebook. Loads the best tuned model and compares train vs test performance (MAE, RMSE, R²). Confirms the model generalizes well with an R² gap of 0.016.
+
+## Status
+Project complete. All notebooks run end-to-end and results are finalized.
