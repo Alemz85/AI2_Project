@@ -39,7 +39,7 @@ guide/
 
 ## Dataset
 
-- **Source:** PlusDR — 873 EV charging stations, Jeju Island, South Korea
+- **Source:** [PlusDR — EV Charging Infrastructure & Demand Response Dataset (Figshare)](https://figshare.com/articles/dataset/EV_charging_infrastructure_demand_response_dataset_integrated_operational_and_market_data_from_Jeju_island/29617100) — 873 EV charging stations, Jeju Island, South Korea
 - **Period:** January 2021 – December 2022
 - **Primary dataset:** hourly resolution with weather (`ev_cleaned_hourly_weather.parquet`) — 586 stations, 45 columns
 - **Model-ready:** feature-engineered (`ev_features.parquet`) — lag features, cyclical time, encoded categoricals
