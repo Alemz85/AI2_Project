@@ -22,9 +22,10 @@ scripts/
 └── 07 - Summary & Error Analysis.ipynb  # Overfitting check, feature importance, error analysis
 
 results/          # Model outputs (not tracked by git)
-├── model_comparison.csv            # All 7 models compared
-├── best_model.pkl                  # Best tuned model (XGBoost)
-└── baseline_comparison.csv         # 5 baseline models compared
+├── iteration_1/  # Original model (with residential station, leaky rolling)
+├── iteration_2/  # Dropped residential station + new features
+├── iteration_3/  # Fixed rolling feature leakage (final)
+└── iterations_summary.csv
 
 guide/
 └── progress.md   # High-level summary of what each notebook does
@@ -55,19 +56,27 @@ guide/
 - **Primary dataset:** hourly resolution with weather (`ev_cleaned_hourly_weather.parquet`) — 585 stations, 45 columns
 - **Model-ready:** feature-engineered (`ev_features.parquet`) — 36 features, ~7.2M rows
 
-## Results
+## Results (Iteration 3 — Final)
 
 | Model | MAE (kWh) | RMSE (kWh) | R² |
 |-------|-----------|------------|-----|
 | Persistence (lag 24h) | 3.79 | 8.74 | -0.038 |
 | Station Hourly Mean | 3.25 | 6.58 | 0.412 |
-| Ridge Regression | 2.56 | 5.25 | 0.626 |
-| LightGBM (default) | 1.83 | 4.49 | 0.726 |
-| XGBoost (default) | 1.80 | 4.49 | 0.726 |
-| LightGBM (tuned) | 1.72 | 4.40 | 0.737 |
-| **XGBoost (tuned)** | **1.63** | **4.36** | **0.742** |
+| Ridge Regression | 3.14 | 6.28 | 0.463 |
+| LightGBM (default) | 2.76 | 5.99 | 0.513 |
+| XGBoost (default) | 2.76 | 5.99 | 0.512 |
+| LightGBM (tuned) | 2.78 | 6.00 | 0.510 |
+| **XGBoost (tuned)** | **2.76** | **5.98** | **0.514** |
 
-Train/test split: Jan 2021 – Jun 2022 / Jul – Dec 2022 (65/35). Mild overfitting on XGBoost (R² gap = 0.052), acceptable for this dataset size.
+Train/test split: Jan 2021 – Jun 2022 / Jul – Dec 2022 (65/35). No overfitting (R² gap = 0.001).
+
+### Model iterations
+
+| Iteration | R² | Change | Key finding |
+|---|---|---|---|
+| 1 | 0.827 | Original | `contract_type_code` dominated feature importance at 88% — one residential station inflating metrics |
+| 2 | 0.742 | Dropped residential station | Feature importance balanced, `load_roll_mean_6h` leads at 36% |
+| 3 | 0.514 | Fixed rolling feature leakage | Rolling features were contributing ~0.23 R² through data leakage |
 
 ## Git workflow notes
 

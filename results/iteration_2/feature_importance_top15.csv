@@ -1,0 +1,16 @@
+Rank,Feature,Importance,Percentage
+1,load_roll_mean_6h,0.3595,35.9%
+2,hour_cos,0.1005,10.0%
+3,load_roll_std_6h,0.0528,5.3%
+4,load_lag_1h,0.0448,4.5%
+5,load_roll_std_24h,0.0445,4.5%
+6,load_roll_mean_24h,0.0441,4.4%
+7,load_lag_3h,0.0372,3.7%
+8,hour_sin,0.0320,3.2%
+9,load_lag_2h,0.0314,3.1%
+10,public_private_code,0.0223,2.2%
+11,business_type_code,0.0185,1.9%
+12,load_roll_std_12h,0.0184,1.8%
+13,load_lag_24h,0.0178,1.8%
+14,total_quantity_norm,0.0158,1.6%
+15,contract_power_kw_norm,0.0155,1.5%

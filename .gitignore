@@ -48,7 +48,8 @@ data/processed/*
 !data/processed/.gitkeep
 data/interim/*
 !data/interim/.gitkeep
-results/
+results/**/*.pkl
+results/**/*.joblib
 outputs/
 reports/
 

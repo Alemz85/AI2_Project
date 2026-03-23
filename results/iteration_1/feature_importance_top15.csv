@@ -1,0 +1,16 @@
+Rank,Feature,Importance,Percentage
+1,contract_type_code,0.8807,88.1%
+2,load_roll_mean_6h,0.0678,6.8%
+3,hour_cos,0.0076,0.8%
+4,hour_sin,0.0043,0.4%
+5,load_lag_1h,0.0042,0.4%
+6,load_roll_std_24h,0.0040,0.4%
+7,load_roll_std_6h,0.0037,0.4%
+8,load_lag_3h,0.0030,0.3%
+9,load_lag_2h,0.0029,0.3%
+10,load_roll_std_12h,0.0025,0.3%
+11,load_lag_24h,0.0020,0.2%
+12,public_private_code,0.0017,0.2%
+13,load_roll_mean_24h,0.0016,0.2%
+14,total_quantity_norm,0.0014,0.1%
+15,contract_power_kw_norm,0.0012,0.1%
