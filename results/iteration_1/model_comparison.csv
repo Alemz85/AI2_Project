@@ -1,0 +1,8 @@
+Model,MAE,RMSE,MAPE (%),R²
+Persistence (lag 24h),3.4728,7.3498,1858.75,0.3130
+Station Hourly Mean,2.9076,5.7577,1723.42,0.5851
+Ridge Regression,2.2576,4.5123,1432.62,0.7451
+LightGBM (default),1.5605,3.8573,743.21,0.8136
+XGBoost (default),1.5318,3.8245,728.35,0.8174
+LightGBM (tuned),1.5192,3.7896,712.45,0.8208
+XGBoost (tuned),1.4885,3.7182,698.32,0.8271

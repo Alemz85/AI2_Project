@@ -36,10 +36,15 @@ Takes the weather-joined dataset and produces a lean, model-ready parquet. Drops
 Trains 5 baseline models on the feature-engineered dataset: Persistence (lag 24h), Station Hourly Mean, Ridge Regression, LightGBM (defaults), and XGBoost (defaults). Uses a temporal train/test split (Jan 2021–Jun 2022 / Jul–Dec 2022). Evaluates with MAE, RMSE, and R². Saves comparison table and best baseline model to results/.
 
 ### 06 - Modeling (Tuned)
-Uses Optuna (Bayesian hyperparameter optimization, 30 trials) to tune LightGBM and XGBoost on a 50% subsample for memory efficiency. Retrains best configs on full training data with early stopping. Compares all 7 models (5 baselines + 2 tuned). Includes an overfitting check (train vs test R² gap). Saves final comparison, best model, and Optuna study objects to results/.
+Uses Optuna (Bayesian hyperparameter optimization, 30 trials) to tune LightGBM and XGBoost on a 50% subsample for memory efficiency. Retrains best configs on full training data with early stopping. Compares all 7 models (5 baselines + 2 tuned). Includes an overfitting check (train vs test R² gap). Saves final comparison, best model, and Optuna study objects to results/iteration_3/.
 
 ### 07 - Summary & Error Analysis
-Final evaluation notebook. Includes data refinement story (dropping residential station based on feature importance analysis), overfitting check (train vs test R² gap), model comparison across all 7 models, feature importance, actual vs predicted scatter, residual distribution, error breakdowns by hour/day/load magnitude/station, and worst predictions analysis.
+Final evaluation notebook. Includes data refinement story documenting 3 iterations: (1) residential station inflating metrics via contract_type dominance, (2) station removed and feature importance rebalanced, (3) rolling feature leakage fixed. Also includes overfitting check, model comparison, feature importance, actual vs predicted scatter, residual distribution, error breakdowns by hour/day/load magnitude/station, and worst predictions analysis.
+
+## Model Iterations
+1. **Iteration 1** (R² = 0.827): Original model — `contract_type_code` at 88% importance, driven by one residential station
+2. **Iteration 2** (R² = 0.742): Dropped residential station, added 5 new features — importance balanced
+3. **Iteration 3** (R² = 0.514): Fixed rolling feature leakage (`.shift(1)`) — honest performance without data leakage
 
 ## Status
-Project complete. All notebooks run end-to-end and results are finalized.
+Project complete. All notebooks run end-to-end. Results organized in results/iteration_1, iteration_2, iteration_3.
