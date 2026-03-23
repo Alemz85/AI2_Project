@@ -41,10 +41,17 @@ Uses Optuna (Bayesian hyperparameter optimization, 30 trials) to tune LightGBM a
 ### 07 - Summary & Error Analysis
 Final evaluation notebook. Includes data refinement story documenting 3 iterations: (1) residential station inflating metrics via contract_type dominance, (2) station removed and feature importance rebalanced, (3) rolling feature leakage fixed. Also includes overfitting check, model comparison, feature importance, actual vs predicted scatter, residual distribution, error breakdowns by hour/day/load magnitude/station, and worst predictions analysis.
 
+### 08 - Modeling (Classification)
+Reframes the problem as multi-class classification: Idle (<0.1 kWh), Low (0.1–5), Medium (5–20), High (≥20). Motivated by regression model capturing timing but not magnitude. Trains LightGBM and XGBoost classifiers with class-imbalance handling and Optuna tuning (30 trials, 50% subsample, macro F1 objective). Best: LightGBM tuned — 81% accuracy, 0.67 macro F1, zero overfitting.
+
+### 09 - Classification Error Analysis
+Deep-dive into classification model errors. Includes regression→classification motivation plots, confusion matrix with adjacency analysis (71% of errors are ±1 class), per-class P/R/F1 breakdown, error by hour/day, misclassification heatmap, confidence analysis (correct=0.847 vs incorrect=0.600), and head-to-head comparison with regression (42%→81% accuracy).
+
 ## Model Iterations
 1. **Iteration 1** (R² = 0.827): Original model — `contract_type_code` at 88% importance, driven by one residential station
 2. **Iteration 2** (R² = 0.742): Dropped residential station, added 5 new features — importance balanced
 3. **Iteration 3** (R² = 0.514): Fixed rolling feature leakage (`.shift(1)`) — honest performance without data leakage
+4. **Iteration 4** (81% acc, 0.67 macro F1): Classification reframing — predict demand level instead of exact kWh
 
 ## Status
-Project complete. All notebooks run end-to-end. Results organized in results/iteration_1, iteration_2, iteration_3.
+Project complete. All notebooks (00–09) run end-to-end. Results organized in results/iteration_1 through iteration_4.

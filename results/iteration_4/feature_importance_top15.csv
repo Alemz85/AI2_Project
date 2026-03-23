@@ -1,0 +1,16 @@
+feature,importance
+load_lag_1h,10556
+contract_power_kw_norm,8311
+load_change_1h,7575
+load_roll_mean_7d,7508
+load_roll_std_7d,7010
+load_lag_2h,6994
+load_lag_24h,6380
+load_lag_168h,6274
+load_lag_3h,5550
+hour_cos,5206
+hour_sin,4702
+load_ratio_24h,4235
+load_roll_std_6h,3969
+total_quantity_norm,3806
+load_roll_mean_6h,3676

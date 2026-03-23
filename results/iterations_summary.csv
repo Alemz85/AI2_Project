@@ -2,3 +2,4 @@ Iteration,Description,Stations,Features,Best Model,MAE,RMSE,R²,Key Finding
 1,Original model (with residential station),586,31,XGBoost (tuned),1.49,3.72,0.827,contract_type_code dominated at 88% feature importance
 2,Dropped residential station + new features,585,36,XGBoost (tuned),1.63,4.40,0.742,Feature importance now balanced — load_roll_mean_6h leads at 36%
 3,Fixed rolling feature leakage,585,36,XGBoost (tuned),2.76,5.98,0.514,load_lag_1h now leads at 29% — rolling features dropped from 36% to 9%
+4,Classification reframing,585,36,LightGBM (tuned),—,—,—,81% accuracy / 0.67 macro F1 / Idle F1=0.92 — reframed as demand-level prediction

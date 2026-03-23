@@ -19,12 +19,15 @@ scripts/
 ├── 04 - Feature Engineering.ipynb  # Build model-ready features: cyclical time, lags, rolling stats, encoding
 ├── 05 - Modeling (Baseline).ipynb  # Baseline models: persistence, station mean, Ridge, LightGBM, XGBoost
 ├── 06 - Modeling (Tuned).ipynb     # Optuna hyperparameter tuning for LightGBM and XGBoost
-└── 07 - Summary & Error Analysis.ipynb  # Overfitting check, feature importance, error analysis
+├── 07 - Summary & Error Analysis.ipynb  # Overfitting check, feature importance, error analysis (regression)
+├── 08 - Modeling (Classification).ipynb # Classification reframing: predict demand level (Idle/Low/Medium/High)
+└── 09 - Classification Error Analysis.ipynb  # Classification error analysis: confusion matrix, confidence, comparison
 
 results/          # Model outputs (not tracked by git)
 ├── iteration_1/  # Original model (with residential station, leaky rolling)
 ├── iteration_2/  # Dropped residential station + new features
-├── iteration_3/  # Fixed rolling feature leakage (final)
+├── iteration_3/  # Fixed rolling feature leakage (final regression)
+├── iteration_4/  # Classification reframing (Idle/Low/Medium/High)
 └── iterations_summary.csv
 
 guide/
@@ -47,7 +50,9 @@ guide/
    - `04 - Feature Engineering` → builds `data/processed/ev_features.parquet`
    - `05 - Modeling (Baseline)` → trains 5 models with defaults, saves to `results/`
    - `06 - Modeling (Tuned)` → Optuna tuning, final comparison of all 7 models
-   - `07 - Summary & Error Analysis` → overfitting check, feature importance, error analysis
+   - `07 - Summary & Error Analysis` → overfitting check, feature importance, error analysis (regression)
+   - `08 - Modeling (Classification)` → classification models: predict demand level
+   - `09 - Classification Error Analysis` → classification error analysis and regression comparison
 
 ## Dataset
 
@@ -77,6 +82,7 @@ Train/test split: Jan 2021 – Jun 2022 / Jul – Dec 2022 (65/35). No overfitti
 | 1 | 0.827 | Original | `contract_type_code` dominated feature importance at 88% — one residential station inflating metrics |
 | 2 | 0.742 | Dropped residential station | Feature importance balanced, `load_roll_mean_6h` leads at 36% |
 | 3 | 0.514 | Fixed rolling feature leakage | Rolling features were contributing ~0.23 R² through data leakage |
+| 4 | 81% acc | Classification reframing | Demand-level prediction: Idle F1=0.92, macro F1=0.67, zero overfitting |
 
 ## Git workflow notes
 
