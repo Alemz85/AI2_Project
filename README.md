@@ -61,7 +61,7 @@ guide/
 - **Primary dataset:** hourly resolution with weather (`ev_cleaned_hourly_weather.parquet`) — 585 stations, 45 columns
 - **Model-ready:** feature-engineered (`ev_features.parquet`) — 36 features, ~7.2M rows
 
-## Results (Iteration 3 — Final)
+## Results
 
 | Model | MAE (kWh) | RMSE (kWh) | R² |
 |-------|-----------|------------|-----|
